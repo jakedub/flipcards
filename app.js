@@ -14,9 +14,16 @@ const bcrypt = require('bcryptjs');
 app.engine('mustache', mustacheExpress());
 app.set('views', './views');
 app.set('view engine', 'mustache');
+app.use("/css", express.static("./public"));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(expressValidator());
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.use(routes);
 
