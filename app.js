@@ -8,6 +8,8 @@ const routes = require("./routes");
 const models = require('./models');
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
+const bcrypt = require('bcryptjs');
+// const hash = bcrypt.hashSync(password, 8);
 
 app.engine('mustache', mustacheExpress());
 app.set('views', './views');
@@ -26,10 +28,6 @@ passport.use(new BasicStrategy(
       return done(null, username);
   }
 ));
-
-// put routes here
-
-
 
 app.listen(3000, function(){
   console.log("Flip those cards!");
