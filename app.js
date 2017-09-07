@@ -36,6 +36,27 @@ passport.use(new BasicStrategy(
   }
 ));
 
+//Controllers
+const addController = require('./controllers/add');
+const deleteController = require('./controllers/delete');
+const editController = require('./controllers/edit');
+const registerController = require('.controllers/register');
+const loginController = require('./controllers/login');
+const homeController = require('./controllers/home');
+app.use('/add', addController);
+app.use('/delete', deleteController);
+app.use('/edit', editController);
+app.use('/register', registerController);
+app.use('/login', loginController);
+app.use('/home', homeController);
+
+//Logging Out
+app.get('/logout', function(req, res){
+  req.session.destroy(function(err){})
+  res.redirect('/login');
+  console.log(req.session);
+});
+
 app.listen(3000, function(){
   console.log("Flip those cards!");
 })

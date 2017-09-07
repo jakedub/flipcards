@@ -13,7 +13,7 @@ Outward
 
 API
 1. Flipcards decks can be created
-2. Flipcards can be creeated, edited, and deleted
+2. Flipcards can be created, edited, and deleted
 
 DB:
 Flipcards - Question: String, Success: Boolean

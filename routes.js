@@ -2,77 +2,7 @@ const express = require('express');
 const router = express.Router();
 const models = require("./models");
 
-
-//Register Render Page
-router.get("/register", function(req,res){
-  res.render("register");
-})
-
-//Register but only create. Should be storing the password in bcrypt. Bcrypt not working.
-router.post('/register', function(req,res){
-  let newUser = {
-    username: req.body.username,
-    password: req.body.password
-  }
-  models.User.create(newUser).then(function(user){
-    req.username = user.username;
-    req.password = user.password;
-    res.redirect('/login');
-  })
-});
-
-//Login page
-router.get('/login', function(req, res){
-  res.render('login')
-});
-
-router.post('/login', function(req, res){
-  let username = req.body.username;
-  let password = req.body.password;
-  models.User.findOne({
-    where: {
-      username: username,
-      password: password
-    }
-  }).then(function(user){
-    if (user.password === password){
-      req.session.password = password;
-      req.session.userId = user.id;
-      res.redirect('/home');
-    } else {
-      res.redirect('/register');
-    }
-  })
-})
-
-//Logging out and redirect to Login Page
-router.get('/logout', function(req, res){
-  req.session.destroy(function(err){})
-  res.redirect('/login');
-  console.log(req.session);
-});
-
-//Delete TODO needs to specify for decks/flipcards. Looking at Deck at the moment
-router.post("/home/:id/delete", function (req, res) {
-  models.Deck.findById(req.params.id).then(function(deck){
-    deck.destroy().then(function () {
-        res.redirect("/");
-      })
-    });
-});
-
-
-router.post("/home/:id/delete", function (req, res) {
-  models.Card.findById(req.params.id).then(function(card){
-    card.destroy().then(function () {
-        res.redirect("/");
-      })
-    });
-});
-
-
 //API STUFF
-
 //Get all cards
 router.route('/card')
 .get(function(req, res){
